@@ -5,7 +5,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#850c27">
+
 <title>COBS Bread | Bake It Right</title>
+
 <style>
 :root {
   --red:#850c27;
@@ -15,32 +17,46 @@
   --gold:#d7a05d;
   --text:#30262a;
 }
-* {box-sizing:border-box}
+
+* {
+  box-sizing:border-box;
+}
+
 body {
   margin:0;
   background:var(--cream);
   color:var(--text);
   font-family:Arial,sans-serif;
 }
-button,input {font:inherit}
-button {cursor:pointer}
+
+button,input {
+  font:inherit;
+}
+
+button {
+  cursor:pointer;
+}
+
 header {
   background:linear-gradient(125deg,#65091d,#a20e32);
   color:white;
   padding:22px 20px;
 }
+
 .brand {
   font-size:29px;
   font-weight:900;
   font-style:italic;
   letter-spacing:-1px;
 }
+
 .tagline {
   font-size:11px;
   letter-spacing:3px;
   font-weight:bold;
   margin-top:5px;
 }
+
 nav {
   background:var(--dark);
   color:white;
@@ -50,6 +66,7 @@ nav {
   padding:12px 20px;
   flex-wrap:wrap;
 }
+
 nav button {
   border:0;
   background:transparent;
@@ -58,22 +75,29 @@ nav button {
   border-radius:9px;
   font-weight:bold;
 }
+
 nav button:hover,
 nav button:first-child {
   background:white;
   color:var(--red);
 }
+
 .layout {
   display:grid;
   grid-template-columns:260px minmax(0,1fr);
   min-height:80vh;
 }
+
 aside {
-  background:#fff;
+  background:white;
   border-right:1px solid #eadbd8;
   padding:20px 15px;
 }
-aside h2 {font-size:20px}
+
+aside h2 {
+  font-size:20px;
+}
+
 .search {
   width:100%;
   padding:13px;
@@ -82,11 +106,13 @@ aside h2 {font-size:20px}
   background:white;
   outline-color:var(--red);
 }
+
 .menu {
   display:grid;
   gap:6px;
   margin-top:15px;
 }
+
 .item {
   width:100%;
   display:flex;
@@ -100,39 +126,61 @@ aside h2 {font-size:20px}
   color:var(--text);
   font-weight:bold;
 }
-.item:hover {background:#fff0ee}
+
+.item:hover {
+  background:#fff0ee;
+}
+
 .item.active {
   background:var(--red);
   color:white;
 }
-.loaf {font-size:24px}
-.arrow {margin-left:auto}
+
+.loaf {
+  font-size:24px;
+}
+
+.arrow {
+  margin-left:auto;
+}
+
+.empty {
+  padding:15px;
+  color:#786c70;
+  text-align:center;
+}
+
 main {
   padding:30px;
   max-width:1200px;
   width:100%;
   margin:auto;
 }
+
 .eyebrow {
   color:var(--red);
   font-size:13px;
   font-weight:bold;
 }
+
 .product-title {
   color:var(--red);
   font-size:clamp(32px,5vw,48px);
   margin:12px 0;
 }
+
 .intro {
   color:#66565b;
   line-height:1.6;
 }
+
 .stats {
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(4,minmax(0,1fr));
   gap:12px;
   margin:25px 0;
 }
+
 .stat {
   background:white;
   border:1px solid #f0e5df;
@@ -143,23 +191,28 @@ main {
   display:grid;
   gap:10px;
 }
+
 .symbol {
   font-size:27px;
   color:var(--red);
 }
+
 .stat small {
   color:#675b5e;
   font-weight:bold;
 }
+
 .stat strong {
   font-size:17px;
   overflow-wrap:anywhere;
 }
+
 .photos {
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:15px;
 }
+
 .photo {
   border:1px solid #eadbd8;
   border-radius:15px;
@@ -167,12 +220,14 @@ main {
   overflow:hidden;
   padding-bottom:15px;
 }
+
 .photo h3 {
   margin:0;
   background:var(--pink);
   color:var(--red);
   padding:15px;
 }
+
 .frame {
   height:260px;
   background:#f5f0eb;
@@ -185,12 +240,17 @@ main {
   text-align:center;
   overflow:hidden;
 }
+
 .frame img {
   width:100%;
   height:100%;
   object-fit:cover;
 }
-.actions {padding:0 12px}
+
+.actions {
+  padding:0 12px;
+}
+
 .camera {
   width:100%;
   background:var(--red);
@@ -200,12 +260,17 @@ main {
   padding:14px 10px;
   font-weight:bold;
 }
-.camera:disabled {opacity:.55}
+
+.camera:disabled {
+  opacity:.55;
+}
+
 .hint {
   font-size:12px;
   color:#71666a;
   line-height:1.5;
 }
+
 .section {
   margin-top:20px;
   background:white;
@@ -214,13 +279,24 @@ main {
   border-radius:14px;
   line-height:1.7;
 }
+
 .section h3 {
   color:var(--red);
   margin-top:0;
 }
-.quality {background:#fff0df}
-.notes {background:#fbe7e8}
-.mobile-products {display:none}
+
+.quality {
+  background:#fff0df;
+}
+
+.notes {
+  background:#fbe7e8;
+}
+
+.mobile-products {
+  display:none;
+}
+
 footer {
   background:var(--dark);
   color:white;
@@ -228,54 +304,171 @@ footer {
   padding:18px;
   font-size:13px;
 }
+
 #status {
   font-size:12px;
   opacity:.85;
   margin-top:10px;
 }
+
+/* MOBILE LAYOUT */
+
 @media(max-width:750px) {
-  header {padding:18px}
-  .brand {font-size:26px}
-  nav {gap:5px;padding:8px}
-  nav button {font-size:12px;padding:10px}
-  .layout {display:block}
-  aside {display:none}
+
+  header {
+    padding:18px;
+  }
+
+  .brand {
+    font-size:26px;
+  }
+
+  nav {
+    gap:5px;
+    padding:8px;
+  }
+
+  nav button {
+    font-size:12px;
+    padding:10px;
+  }
+
+  .layout {
+    display:block;
+  }
+
+  aside {
+    display:none;
+  }
+
   .mobile-products {
     display:block;
     padding:14px;
     background:white;
   }
+
+  /* THREE PRODUCTS PER ROW */
+
   #mobile-list {
-    display:flex;
-    overflow-x:auto;
-    gap:8px;
-    padding:10px 0;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:9px;
+    padding:12px 0;
+    overflow:visible;
+    align-items:stretch;
   }
+
   #mobile-list .item {
-    flex:0 0 135px;
+    width:100%;
+    min-width:0;
+    min-height:110px;
+    display:flex;
     flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:12px 5px;
+    border:1px solid #eee2dd;
+    border-radius:13px;
     text-align:center;
-    border:1px solid #eee;
+    font-size:11px;
+    line-height:1.35;
+    overflow-wrap:anywhere;
+    word-break:normal;
+    white-space:normal;
   }
-  #mobile-list .item .arrow {display:none}
-  main {padding:18px 12px}
-  .stats {gap:6px}
-  .stat {padding:13px 5px}
-  .stat small {font-size:10px}
-  .stat strong {font-size:12px}
-  .symbol {font-size:22px}
-  .photos {gap:8px}
-  .photo h3 {font-size:14px;padding:10px}
-  .frame {height:190px;margin:7px}
-  .camera {font-size:12px;padding:12px 5px}
-  .actions {padding:0 7px}
+
+  #mobile-list .item .loaf {
+    font-size:25px;
+  }
+
+  #mobile-list .item .arrow {
+    display:none;
+  }
+
+  #mobile-list .item.active {
+    background:var(--red);
+    color:white;
+    border-color:var(--red);
+  }
+
+  #mobile-list .empty {
+    grid-column:1/-1;
+  }
+
+  main {
+    padding:18px 12px;
+  }
+
+  .stats {
+    gap:6px;
+  }
+
+  .stat {
+    padding:13px 5px;
+  }
+
+  .stat small {
+    font-size:10px;
+  }
+
+  .stat strong {
+    font-size:12px;
+  }
+
+  .symbol {
+    font-size:22px;
+  }
+
+  .photos {
+    gap:8px;
+  }
+
+  .photo h3 {
+    font-size:14px;
+    padding:10px;
+  }
+
+  .frame {
+    height:190px;
+    margin:7px;
+  }
+
+  .camera {
+    font-size:12px;
+    padding:12px 5px;
+  }
+
+  .actions {
+    padding:0 7px;
+  }
 }
+
+/* EXTRA SMALL SCREENS */
+
 @media(max-width:360px) {
-  .stats {grid-template-columns:repeat(2,1fr)}
-  .photos {grid-template-columns:1fr}
+
+  .stats {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .photos {
+    grid-template-columns:1fr;
+  }
+
+  #mobile-list {
+    gap:6px;
+  }
+
+  #mobile-list .item {
+    font-size:10px;
+    padding:9px 3px;
+  }
 }
+
 </style>
 </head>
+
 <body>
 
 <header>
@@ -285,34 +478,59 @@ footer {
 </header>
 
 <nav>
-  <button id="nav-products">🥖 Products</button>
-  <button id="nav-oven">♨ Oven Guide</button>
-  <button id="nav-notes">📝 Tips & Notes</button>
+  <button id="nav-products">
+    🥖 Products
+  </button>
+
+  <button id="nav-oven">
+    ♨ Oven Guide
+  </button>
+
+  <button id="nav-notes">
+    📝 Tips & Notes
+  </button>
 </nav>
 
+<!-- MOBILE PRODUCT GRID -->
+
 <div class="mobile-products">
+
   <input
     class="search"
     id="mobile-search"
     placeholder="🔍 Search products..."
   >
+
   <div id="mobile-list"></div>
+
 </div>
 
+<!-- DESKTOP LAYOUT -->
+
 <div class="layout">
+
   <aside>
-    <h2>Products <span id="count"></span></h2>
+
+    <h2>
+      Products <span id="count"></span>
+    </h2>
+
     <input
       class="search"
       id="desktop-search"
       placeholder="🔍 Search products..."
     >
+
     <div class="menu" id="desktop-list"></div>
+
   </aside>
+
+  <!-- PRODUCT DETAILS -->
 
   <main id="app">
     Loading bakery products...
   </main>
+
 </div>
 
 <footer>
@@ -320,5 +538,7 @@ footer {
 </footer>
 
 <script type="module" src="./app.js"></script>
+
 </body>
 </html>
+
