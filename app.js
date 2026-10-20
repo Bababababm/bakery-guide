@@ -1,4 +1,3 @@
-
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 import products from './products.json' with { type: 'json' };
@@ -444,3 +443,4 @@ if (products.length) {
 } else {
   app.textContent = 'No products found.';
 }
+
