@@ -1,8 +1,8 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import products from './products.json' with { type: 'json' };
 
-// SUPABASE CONNECTION
+// SUPABASE SETTINGS
 
 const supabase = createClient(
   'https://fexwvngtfvgdvlaiccex.supabase.co',
@@ -11,85 +11,122 @@ const supabase = createClient(
 
 const bucket = 'bakery-photos';
 
-// WEBSITE ELEMENTS
+// PAGE ELEMENTS
 
 const app = document.getElementById('app');
 const status = document.getElementById('status');
-
 const dSearch = document.getElementById('desktop-search');
 const mSearch = document.getElementById('mobile-search');
 
+const desktopList = document.getElementById('desktop-list');
+const mobileList = document.getElementById('mobile-list');
+
 let current = products[0]?.id ?? null;
-let timer = null;
+let photoTimer = null;
+let selectionNumber = 0;
 
-// SAFE TEXT DISPLAY
+// ESCAPE HTML
 
-function escape(s) {
-  return String(s ?? '').replace(/[&<>"']/g, c => ({
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#39;'
-  }[c]));
+  }[char]));
 }
 
-// STATUS
+// INITIAL STATUS
 
 document.getElementById('count').textContent =
   `(${products.length})`;
 
 status.textContent =
-  'Shared photos • Anyone with the link can replace product photos';
+  'Shared bakery photos • Select any product';
 
-// PRODUCT MENU
+// AUTOMATIC SCROLL TO PRODUCT DETAILS
+
+function scrollToProduct() {
+
+  // Run after the product details have been updated.
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+
+      const details = document.getElementById('app');
+
+      if (!details) return;
+
+      const targetPosition =
+        details.getBoundingClientRect().top +
+        window.scrollY -
+        8;
+
+      window.scrollTo({
+        top: Math.max(0, targetPosition),
+        behavior: 'auto'
+      });
+
+    });
+  });
+}
+
+// PRODUCT SELECTION
+
+function selectProduct(id) {
+
+  const product = products.find(p => p.id === id);
+
+  if (!product) return;
+
+  // Stop any previous scrolling animation.
+  // Immediately update the product details.
+  showProduct(id);
+
+  // Scroll to the selected product.
+  scrollToProduct();
+}
+
+// BUILD PRODUCT BUTTONS
 
 function drawMenus() {
 
-  const term = (
+  const searchText = (
     dSearch.value || mSearch.value
   ).trim().toLowerCase();
 
-  for (const target of ['desktop-list', 'mobile-list']) {
+  const matchingProducts = products.filter(product =>
+    product.name.toLowerCase().includes(searchText)
+  );
 
-    const list = document.getElementById(target);
+  for (const list of [desktopList, mobileList]) {
 
     list.replaceChildren();
 
-    const matches = products.filter(p =>
-      p.name.toLowerCase().includes(term)
-    );
+    for (const product of matchingProducts) {
 
-    for (const p of matches) {
+      const button = document.createElement('button');
 
-      const b = document.createElement('button');
+      button.type = 'button';
 
-      b.className =
-        'item' + (current === p.id ? ' active' : '');
+      button.className =
+        'item' + (current === product.id ? ' active' : '');
 
-      b.innerHTML = `
+      button.innerHTML = `
         <span class="loaf">🥖</span>
-        <span>${escape(p.name)}</span>
+        <span>${escapeHtml(product.name)}</span>
         <span class="arrow">›</span>
       `;
 
-      // SELECT PRODUCT AND SCROLL TO DETAILS
+      // WORKS FOR EVERY PRODUCT
+      button.addEventListener('click', () => {
+        selectProduct(product.id);
+      });
 
-      b.onclick = () => {
-
-        show(p.id);
-
-        document.getElementById('app').scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-
-      };
-
-      list.append(b);
+      list.appendChild(button);
     }
 
-    if (!list.children.length) {
+    if (matchingProducts.length === 0) {
       list.innerHTML =
         '<div class="empty">No matching products</div>';
     }
@@ -98,57 +135,58 @@ function drawMenus() {
 
 // SEARCH
 
-dSearch.oninput = () => {
+dSearch.addEventListener('input', () => {
   mSearch.value = dSearch.value;
   drawMenus();
-};
+});
 
-mSearch.oninput = () => {
+mSearch.addEventListener('input', () => {
   dSearch.value = mSearch.value;
   drawMenus();
-};
+});
 
-// NAVIGATION
+// NAVIGATION BUTTONS
 
 document.getElementById('nav-products').onclick = () => {
   window.scrollTo({
     top: 0,
     behavior: 'smooth'
   });
-
-  mSearch.focus();
 };
 
 document.getElementById('nav-oven').onclick = () => {
   document.querySelector('.stats')?.scrollIntoView({
-    behavior: 'smooth'
+    behavior: 'smooth',
+    block: 'start'
   });
 };
 
 document.getElementById('nav-notes').onclick = () => {
   document.querySelector('.notes')?.scrollIntoView({
-    behavior: 'smooth'
+    behavior: 'smooth',
+    block: 'start'
   });
 };
 
-// LOAD SHARED PRODUCT PHOTOS
+// LOAD PHOTOS FROM SUPABASE
 
-async function refresh(id) {
+async function refreshPhotos(id) {
 
   if (current !== id) return;
 
   for (const kind of ['proofer', 'oven']) {
 
     const frame = document.getElementById(
-      'frame-' + kind
+      `frame-${kind}`
     );
 
-    if (!frame) return;
+    if (!frame) continue;
 
     const path = `products/${id}/${kind}.jpg`;
 
-    const { data, error } =
-      await supabase.storage.from(bucket).info(path);
+    const { data, error } = await supabase.storage
+      .from(bucket)
+      .info(path);
 
     if (current !== id) return;
 
@@ -157,13 +195,14 @@ async function refresh(id) {
       continue;
     }
 
-    const { data: link } =
-      supabase.storage.from(bucket).getPublicUrl(path);
+    const { data: publicData } = supabase.storage
+      .from(bucket)
+      .getPublicUrl(path);
 
-    const img = document.createElement('img');
+    const image = document.createElement('img');
 
-    img.src =
-      link.publicUrl +
+    image.src =
+      publicData.publicUrl +
       '?v=' +
       encodeURIComponent(
         data.updated_at ||
@@ -171,55 +210,66 @@ async function refresh(id) {
         Date.now()
       );
 
-    img.alt = `${kind} photo`;
+    image.alt =
+      kind === 'proofer'
+        ? 'Out of Proofer'
+        : 'Out of Oven';
 
-    frame.replaceChildren(img);
+    frame.replaceChildren(image);
   }
 }
 
-// DISPLAY SELECTED PRODUCT
+// SHOW PRODUCT DETAILS
 
-function show(id) {
+function showProduct(id) {
 
-  if (timer) {
-    clearInterval(timer);
-    timer = null;
+  const product = products.find(p => p.id === id);
+
+  if (!product) return;
+
+  // Stop old photo refresh interval.
+  if (photoTimer !== null) {
+    clearInterval(photoTimer);
+    photoTimer = null;
   }
 
   current = id;
 
-  const p = products.find(x => x.id === id);
+  // Used to prevent outdated photo requests.
+  selectionNumber++;
+  const thisSelection = selectionNumber;
 
-  if (!p) return;
-
+  // Update highlighted product button.
   drawMenus();
+
+  // UPDATE PRODUCT INFORMATION
 
   app.innerHTML = `
     <div class="eyebrow">
-      Products › ${escape(p.name)}
+      Products › ${escapeHtml(product.name)}
     </div>
 
     <h1 class="product-title">
-      ${escape(p.name)}
+      ${escapeHtml(product.name)}
     </h1>
 
     <p class="intro">
-      Product oven reference and shared
-      before-and-after bakery photos.
+      Baking instructions, oven settings,
+      and shared bakery photos.
     </p>
 
     <div class="stats">
 
       ${[
-        ['♨', 'PREHEAT', p.preheat],
-        ['♨', 'BAKE', p.bake],
-        ['◷', 'TIME', p.time],
-        ['≋', 'STEAM', p.steam]
-      ].map(([icon, k, v]) => `
+        ['♨', 'PREHEAT', product.preheat],
+        ['♨', 'BAKE', product.bake],
+        ['◷', 'TIME', product.time],
+        ['≋', 'STEAM', product.steam]
+      ].map(([icon, label, value]) => `
         <div class="stat">
           <span class="symbol">${icon}</span>
-          <small>${k}</small>
-          <strong>${escape(v)}</strong>
+          <small>${label}</small>
+          <strong>${escapeHtml(value)}</strong>
         </div>
       `).join('')}
 
@@ -233,7 +283,7 @@ function show(id) {
       ].map(([kind, title]) => `
         <section class="photo">
 
-          <h3>♧ ${title}</h3>
+          <h3>📷 ${title}</h3>
 
           <div
             class="frame"
@@ -245,6 +295,7 @@ function show(id) {
           <div class="actions">
 
             <button
+              type="button"
               class="camera"
               id="btn-${kind}"
             >
@@ -266,169 +317,210 @@ function show(id) {
             </p>
 
           </div>
+
         </section>
       `).join('')}
 
     </div>
 
     <section class="section">
-      <h3>☷ Baking reference</h3>
+      <h3>♨ Baking Reference</h3>
 
       <p>
-        Use the preheat, baking temperature,
-        time and steam settings shown above.
-        Confirm oven-specific adjustments
-        with your bakery supervisor.
+        Preheat:
+        <strong>${escapeHtml(product.preheat)}</strong>
+      </p>
+
+      <p>
+        Bake:
+        <strong>${escapeHtml(product.bake)}</strong>
+      </p>
+
+      <p>
+        Time:
+        <strong>${escapeHtml(product.time)}</strong>
+      </p>
+
+      <p>
+        Steam:
+        <strong>${escapeHtml(product.steam)}</strong>
       </p>
     </section>
 
     <section class="section quality">
-      <h3>💡 Quality check</h3>
+      <h3>💡 Quality Check</h3>
 
       <p>
-        Compare the product with your bakery's
-        approved proofed and finished-product
-        photos. Check appearance and bake
-        quality using local bakery standards.
+        Compare the product with the approved
+        proofed and baked product photos.
+        Check appearance, colour and baking
+        quality using your bakery standards.
       </p>
     </section>
 
     <section class="section notes">
-      <h3>▤ Product notes</h3>
+      <h3>📝 Product Notes</h3>
 
       <p>
-        ${escape(
-          p.notes || 'No additional notes recorded.'
+        ${escapeHtml(
+          product.notes || 'No additional notes recorded.'
         )}
       </p>
     </section>
   `;
 
-  // PHOTO UPLOAD BUTTONS
+  // CAMERA BUTTONS
 
   for (const kind of ['proofer', 'oven']) {
 
-    const file = document.getElementById(
-      'file-' + kind
+    const fileInput = document.getElementById(
+      `file-${kind}`
     );
 
-    const btn = document.getElementById(
-      'btn-' + kind
+    const button = document.getElementById(
+      `btn-${kind}`
     );
 
-    const msg = document.getElementById(
-      'msg-' + kind
+    const message = document.getElementById(
+      `msg-${kind}`
     );
 
-    btn.onclick = () => file.click();
+    button.onclick = () => {
+      fileInput.click();
+    };
 
-    file.onchange = async () => {
+    fileInput.onchange = async () => {
 
-      const f = file.files?.[0];
+      const file = fileInput.files?.[0];
 
-      if (!f) return;
+      if (!file) return;
 
-      if (!f.type.startsWith('image/')) {
-        msg.textContent = 'Choose an image file.';
+      if (!file.type.startsWith('image/')) {
+        message.textContent =
+          'Please choose an image file.';
         return;
       }
 
-      btn.disabled = true;
-      msg.textContent = 'Preparing image…';
+      button.disabled = true;
+      message.textContent = 'Preparing photo…';
 
       try {
 
-        const jpg = await createJpeg(f);
+        const jpeg = await createJpeg(file);
 
-        if (jpg.size > 5 * 1024 * 1024) {
-          throw Error('Photo too large');
+        if (jpeg.size > 5 * 1024 * 1024) {
+          throw new Error('Photo is too large.');
         }
 
-        msg.textContent = 'Uploading…';
+        message.textContent = 'Uploading photo…';
 
-        const { error } =
-          await supabase.storage.from(bucket).upload(
-            `products/${id}/${kind}.jpg`,
-            jpg,
-            {
-              contentType: 'image/jpeg',
-              upsert: true,
-              cacheControl: '60'
-            }
-          );
+        const path = `products/${id}/${kind}.jpg`;
+
+        const { error } = await supabase.storage
+          .from(bucket)
+          .upload(path, jpeg, {
+            contentType: 'image/jpeg',
+            upsert: true,
+            cacheControl: '60'
+          });
 
         if (error) throw error;
 
-        msg.textContent =
-          'Saved! Other devices will update shortly.';
+        if (
+          current === id &&
+          selectionNumber === thisSelection
+        ) {
+          message.textContent =
+            'Photo saved successfully!';
 
-        await refresh(id);
+          await refreshPhotos(id);
+        }
 
-      } catch (e) {
+      } catch (error) {
 
-        msg.textContent =
-          'Upload failed: ' + e.message;
+        message.textContent =
+          'Upload failed: ' + error.message;
 
       } finally {
 
-        btn.disabled = false;
-        file.value = '';
+        button.disabled = false;
+        fileInput.value = '';
 
       }
     };
   }
 
-  refresh(id).catch(e => {
-    status.textContent =
-      'Photo loading issue: ' + e.message;
+  // INITIAL PHOTO LOAD
+
+  refreshPhotos(id).catch(error => {
+    console.error('Photo loading failed:', error);
   });
 
-  // CHECK FOR NEW PHOTOS EVERY 15 SECONDS
+  // CHECK FOR UPDATED PHOTOS EVERY 15 SECONDS
 
-  timer = setInterval(() => {
-    refresh(id).catch(() => {});
+  photoTimer = setInterval(() => {
+
+    if (
+      current !== id ||
+      selectionNumber !== thisSelection
+    ) {
+      return;
+    }
+
+    refreshPhotos(id).catch(error => {
+      console.error('Photo refresh failed:', error);
+    });
+
   }, 15000);
 }
 
-// COMPRESS PHOTOS BEFORE UPLOADING
+// CONVERT AND COMPRESS PHOTOS
 
 async function createJpeg(file) {
 
-  const bmp = await createImageBitmap(file);
+  const bitmap = await createImageBitmap(file);
 
   const scale = Math.min(
     1,
-    1600 / Math.max(bmp.width, bmp.height)
+    1600 / Math.max(bitmap.width, bitmap.height)
   );
 
-  const c = document.createElement('canvas');
+  const canvas = document.createElement('canvas');
 
-  c.width = Math.max(
+  canvas.width = Math.max(
     1,
-    Math.round(bmp.width * scale)
+    Math.round(bitmap.width * scale)
   );
 
-  c.height = Math.max(
+  canvas.height = Math.max(
     1,
-    Math.round(bmp.height * scale)
+    Math.round(bitmap.height * scale)
   );
 
-  c.getContext('2d').drawImage(
-    bmp,
+  const context = canvas.getContext('2d');
+
+  context.drawImage(
+    bitmap,
     0,
     0,
-    c.width,
-    c.height
+    canvas.width,
+    canvas.height
   );
 
-  bmp.close();
+  bitmap.close();
 
   return new Promise((resolve, reject) => {
 
-    c.toBlob(
-      b => b
-        ? resolve(b)
-        : reject(Error('Could not prepare photo')),
+    canvas.toBlob(
+      blob => {
+        if (blob) {
+          resolve(blob);
+        } else {
+          reject(
+            new Error('Could not prepare photo.')
+          );
+        }
+      },
       'image/jpeg',
       0.8
     );
@@ -438,9 +530,14 @@ async function createJpeg(file) {
 
 // START WEBSITE
 
-if (products.length) {
-  show(products[0].id);
-} else {
-  app.textContent = 'No products found.';
-}
+if (products.length > 0) {
 
+  showProduct(products[0].id);
+
+} else {
+
+  drawMenus();
+
+  app.textContent = 'No products found.';
+
+}
