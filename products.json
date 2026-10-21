@@ -1,36 +1,37 @@
+
 [
   {
     "id": 1,
     "name": "CAPESEED",
-    "preheat": "270\u00b0C",
-    "bake": "240\u00b0C",
+    "preheat": "270°C",
+    "bake": "240°C",
     "time": "35 min",
     "steam": "Steam",
     "notes": "With cut and poppy; low rod; with lid. Confirm lid and finishing sequence locally."
   },
   {
     "id": 2,
-    "name": "SOURDOUGH \u2014 TINS",
-    "preheat": "250\u00b0C",
-    "bake": "210\u00b0C",
+    "name": "SOURDOUGH — TINS",
+    "preheat": "250°C",
+    "bake": "210°C",
     "time": "36 min",
     "steam": "Steam; +10 vent",
-    "notes": "Vent instruction shown as \u201c+10 vent\u201d; verify whether this means an additional 10 minutes."
+    "notes": "Verify whether +10 vent means an additional 10 minutes."
   },
   {
     "id": 3,
-    "name": "SOURDOUGH \u2014 VIENNAS",
-    "preheat": "250\u00b0C",
-    "bake": "210\u00b0C",
+    "name": "SOURDOUGH — VIENNAS",
+    "preheat": "250°C",
+    "bake": "210°C",
     "time": "30 min",
     "steam": "Steam; +10 vent",
     "notes": "Confirm scoring and proofing standard with bakery."
   },
   {
     "id": 4,
-    "name": "SOURDOUGH \u2014 BUNS",
-    "preheat": "250\u00b0C",
-    "bake": "210\u00b0C",
+    "name": "SOURDOUGH — BUNS",
+    "preheat": "250°C",
+    "bake": "210°C",
     "time": "25 min",
     "steam": "Steam; +10 vent",
     "notes": "Confirm bun size and proofing standard."
@@ -38,80 +39,116 @@
   {
     "id": 5,
     "name": "FIBER",
-    "preheat": "270\u00b0C",
-    "bake": "240\u00b0C",
+    "preheat": "270°C",
+    "bake": "240°C",
     "time": "37 min",
     "steam": "Not specified",
     "notes": "Add flour / WW / CG / white per source sheet."
   },
   {
-    "id": 6,
-    "name": "GOURMET \u2014 HAMBURGERS / SLIDERS",
-    "preheat": "210\u00b0C",
-    "bake": "200\u00b0C",
+    "id": 26,
+    "name": "WHITE BUNS",
+    "preheat": "250°C",
+    "bake": "230°C",
+    "time": "16 min",
+    "steam": "Steam",
+    "notes": "With diagonal cut."
+  },
+  {
+    "id": 27,
+    "name": "WHOLE WHEAT BUNS",
+    "preheat": "250°C",
+    "bake": "230°C",
+    "time": "16 min",
+    "steam": "Steam",
+    "notes": "With diagonal cut."
+  },
+  {
+    "id": 28,
+    "name": "COUNTRY GRAIN BUNS",
+    "preheat": "250°C",
+    "bake": "230°C",
+    "time": "16 min",
+    "steam": "Steam",
+    "notes": "With diagonal cut."
+  },
+  {
+    "id": 29,
+    "name": "LUNCHBOX BUNS",
+    "preheat": "250°C",
+    "bake": "230°C",
+    "time": "16 min",
+    "steam": "Steam",
+    "notes": "With diagonal cut."
+  },
+  {
+    "id": 30,
+    "name": "GOURMET — HAMBURGERS",
+    "preheat": "210°C",
+    "bake": "200°C",
+    "time": "14 min",
+    "steam": "Not specified",
+    "notes": "No skin; egg spray."
+  },
+  {
+    "id": 31,
+    "name": "GOURMET — SLIDERS",
+    "preheat": "210°C",
+    "bake": "200°C",
     "time": "14 min",
     "steam": "Not specified",
     "notes": "No skin; egg spray."
   },
   {
     "id": 7,
-    "name": "GOURMET \u2014 HOTDOGS",
-    "preheat": "210\u00b0C",
-    "bake": "190\u00b0C",
+    "name": "GOURMET — HOTDOGS",
+    "preheat": "210°C",
+    "bake": "190°C",
     "time": "22 min",
     "steam": "Not specified",
     "notes": "No skin; egg spray."
   },
   {
-    "id": 8,
-    "name": "BUNS \u2014 WHITE / WW / CG / LUNCHBOX",
-    "preheat": "250\u00b0C",
-    "bake": "230\u00b0C",
-    "time": "16 min",
-    "steam": "Steam",
-    "notes": "With diagonal cut."
-  },
-  {
     "id": 9,
     "name": "BAGELS",
-    "preheat": "220\u00b0C",
-    "bake": "210\u00b0C",
+    "preheat": "220°C",
+    "bake": "210°C",
     "time": "22 min",
     "steam": "Steam",
     "notes": "No skin; egg glaze + seeds."
   },
   {
     "id": 10,
-    "name": "TURKISH \u2014 LOAF",
-    "preheat": "280\u00b0C",
-    "bake": "250\u00b0C",
+    "name": "TURKISH — LOAF",
+    "preheat": "280°C",
+    "bake": "250°C",
     "time": "14 min",
     "steam": "Steam",
     "notes": "Confirm proofing and finishing locally."
   },
   {
     "id": 11,
-    "name": "TURKISH \u2014 FRENCH",
-    "preheat": "280\u00b0C",
-    "bake": "220\u00b0C",
+    "name": "TURKISH — FRENCH",
+    "preheat": "280°C",
+    "bake": "220°C",
     "time": "16 min",
     "steam": "Steam",
     "notes": "Confirm proofing and finishing locally."
   },
   {
     "id": 12,
-    "name": "TURKISH \u2014 PIZZA",
-    "preheat": "280\u00b0C",
-    "bake": "250\u00b0C",
+    "name": "TURKISH — PIZZA",
+    "preheat": "280°C",
+    "bake": "250°C",
     "time": "15 min",
     "steam": "Steam",
     "notes": "Confirm proofing and finishing locally."
   },
   {
     "id": 13,
-    "name": "TURKISH \u2014 FOCACCIA",
-    "preheat": "280\u00b0C",
-    "bake": "230\u00b0C",
+    "name": "TURKISH — FOCACCIA",
+    "preheat": "280°C",
+    "bake": "230°C",
     "time": "18 min",
     "steam": "Steam",
     "notes": "Handwriting partially obscures time; verify against original."
@@ -119,35 +156,35 @@
   {
     "id": 14,
     "name": "CROISSANT / DANISH",
-    "preheat": "240\u00b0C",
-    "bake": "210\u00b0C",
+    "preheat": "240°C",
+    "bake": "210°C",
     "time": "14 min",
     "steam": "No steam",
     "notes": "No skin; egg spray."
   },
   {
     "id": 15,
-    "name": "CRYSTAL \u2014 CINNIS",
-    "preheat": "220\u00b0C",
-    "bake": "200\u00b0C",
+    "name": "CRYSTAL — CINNIS",
+    "preheat": "220°C",
+    "bake": "200°C",
     "time": "Unclear",
     "steam": "Not specified",
-    "notes": "Original reads \u201c200 for 7? / tap down / +9 / glaze\u201d; confirm exact timing."
+    "notes": "Original reads 200 for 7? / tap down / +9 / glaze; confirm exact timing."
   },
   {
     "id": 16,
-    "name": "CRYSTAL \u2014 APPLELICIOUS",
-    "preheat": "220\u00b0C",
-    "bake": "200\u00b0C",
+    "name": "CRYSTAL — APPLELICIOUS",
+    "preheat": "220°C",
+    "bake": "200°C",
     "time": "13 min",
     "steam": "Not specified",
     "notes": "Confirm exact duration; image is partly obscured."
   },
   {
     "id": 17,
-    "name": "CRYSTAL \u2014 CINNILOAF",
-    "preheat": "220\u00b0C",
-    "bake": "200\u00b0C",
+    "name": "CRYSTAL — CINNILOAF",
+    "preheat": "220°C",
+    "bake": "200°C",
     "time": "20 min",
     "steam": "Not specified",
     "notes": "Take off lids +10; confirm whether extra 10 minutes."
@@ -155,8 +192,8 @@
   {
     "id": 18,
     "name": "RAISIN LOAF",
-    "preheat": "250\u00b0C",
-    "bake": "210\u00b0C",
+    "preheat": "250°C",
+    "bake": "210°C",
     "time": "20 min",
     "steam": "Not specified",
     "notes": "Take off lids +10; confirm whether extra 10 minutes."
@@ -164,8 +201,8 @@
   {
     "id": 19,
     "name": "SAVORY TWISTS / PULLAPARTS",
-    "preheat": "250\u00b0C",
-    "bake": "220\u00b0C",
+    "preheat": "250°C",
+    "bake": "220°C",
     "time": "18 min",
     "steam": "Steam",
     "notes": "Pullies may need a couple more minutes."
@@ -173,8 +210,8 @@
   {
     "id": 20,
     "name": "APRICOT",
-    "preheat": "220\u00b0C",
-    "bake": "200\u00b0C",
+    "preheat": "220°C",
+    "bake": "200°C",
     "time": "20 min",
     "steam": "Steam",
     "notes": "Confirm preparation standard locally."
@@ -182,44 +219,44 @@
   {
     "id": 21,
     "name": "SCONES",
-    "preheat": "230\u00b0C",
-    "bake": "210\u00b0C",
+    "preheat": "230°C",
+    "bake": "210°C",
     "time": "18 min",
     "steam": "No steam",
     "notes": "No skin; flour."
   },
   {
     "id": 22,
-    "name": "TARTS \u2014 PUMPKIN",
-    "preheat": "220\u00b0C",
-    "bake": "190\u00b0C",
+    "name": "TARTS — PUMPKIN",
+    "preheat": "220°C",
+    "bake": "190°C",
     "time": "25 min",
     "steam": "Not specified",
     "notes": "Check filling set and bakery finishing standard."
   },
   {
     "id": 23,
-    "name": "TARTS \u2014 BUTTER",
-    "preheat": "220\u00b0C",
-    "bake": "200\u00b0C",
+    "name": "TARTS — BUTTER",
+    "preheat": "220°C",
+    "bake": "200°C",
     "time": "25 min",
     "steam": "Not specified",
     "notes": "Check filling set and bakery finishing standard."
   },
   {
     "id": 24,
-    "name": "CONTINENTAL \u2014 LOAF",
-    "preheat": "270\u00b0C",
-    "bake": "230\u00b0C",
+    "name": "CONTINENTAL — LOAF",
+    "preheat": "270°C",
+    "bake": "230°C",
     "time": "25 min",
     "steam": "Not specified",
-    "notes": "230\u00b0C handwritten correction over 220\u00b0C."
+    "notes": "230°C handwritten correction over 220°C."
   },
   {
     "id": 25,
-    "name": "CONTINENTAL \u2014 BUNS",
-    "preheat": "270\u00b0C",
-    "bake": "230\u00b0C",
+    "name": "CONTINENTAL — BUNS",
+    "preheat": "270°C",
+    "bake": "230°C",
     "time": "16 min",
     "steam": "Not specified",
     "notes": "Confirm proofing and finishing standard locally."
